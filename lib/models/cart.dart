@@ -57,4 +57,24 @@ class Cart extends ChangeNotifier {
     userCart.remove(shoe);
     notifyListeners();
   }
+
+  String _searchQuery = '';
+
+  void updateSearchQuery(String query) {
+    _searchQuery = query.toLowerCase();
+    notifyListeners();
+  }
+
+  List<Shoe> getFilteredShoeList() {
+    if (_searchQuery.isEmpty) {
+      return shoeShop;
+    }
+
+    return shoeShop
+        .where(
+          (element) =>
+              element.name.toLowerCase().contains(_searchQuery),
+        )
+        .toList();
+  }
 }

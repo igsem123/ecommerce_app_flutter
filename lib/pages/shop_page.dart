@@ -13,7 +13,6 @@ class ShopPage extends StatefulWidget {
 
 class _ShopPageState extends State<ShopPage> {
   final _controllerForSearchBar = TextEditingController();
-  final _products = ['Tenis', 'Adidas', 'Nike'];
 
   // add shoe to cart
   void addShoeToCart(Shoe shoe) {
@@ -37,51 +36,32 @@ class _ShopPageState extends State<ShopPage> {
           // search bar
           Padding(
             padding: const EdgeInsets.symmetric(horizontal: 20.0),
-            child: SearchAnchor(
-              builder: (context, controller) => SearchBar(
-                leading: Icon(Icons.search),
-                autoFocus: false,
-                hintText: 'Search the product...',
-                padding: WidgetStateProperty.all(
-                  const EdgeInsets.symmetric(horizontal: 16),
-                ),
-                backgroundColor: WidgetStatePropertyAll(Colors.white),
-                shape: WidgetStatePropertyAll(
-                  RoundedRectangleBorder(
-                    borderRadius: BorderRadiusGeometry.circular(12),
-                  ),
-                ),
-                elevation: WidgetStatePropertyAll(0),
-                controller: _controllerForSearchBar,
-                trailing: [
-                  IconButton(
-                    onPressed: () => _controllerForSearchBar.clear(),
-                    icon: Icon(Icons.clear),
-                  ),
-                ],
-                onTap: controller.openView,
-                onChanged: (value) => {
-                  _products.first.contains(
-                    _controllerForSearchBar.text.toLowerCase(),
-                  ),
-                },
+            child: SearchBar(
+              leading: Icon(Icons.search),
+              autoFocus: false,
+              hintText: 'Search the product...',
+              padding: WidgetStateProperty.all(
+                const EdgeInsets.symmetric(horizontal: 16),
               ),
-              suggestionsBuilder: (context, controller) {
-                return _products
-                    .where(
-                      (item) => item.toLowerCase().contains(
-                        _controllerForSearchBar.text.toLowerCase(),
-                      ),
-                    )
-                    .map(
-                      (item) => ListTile(
-                        title: Text(item),
-                        onTap: () {
-                          controller.closeView(item);
-                        },
-                      ),
-                    )
-                    .toList();
+              backgroundColor: WidgetStatePropertyAll(Colors.white),
+              shape: WidgetStatePropertyAll(
+                RoundedRectangleBorder(
+                  borderRadius: BorderRadiusGeometry.circular(12),
+                ),
+              ),
+              elevation: WidgetStatePropertyAll(0),
+              controller: _controllerForSearchBar,
+              trailing: [
+                IconButton(
+                  onPressed: () {
+                    _controllerForSearchBar.clear();
+                    context.read<Cart>().updateSearchQuery('');
+                  },
+                  icon: Icon(Icons.clear),
+                ),
+              ],
+              onChanged: (value) => {
+                context.read<Cart>().updateSearchQuery(value),
               },
             ),
           ),
@@ -126,11 +106,11 @@ class _ShopPageState extends State<ShopPage> {
           // list of shoes for sale
           Expanded(
             child: ListView.builder(
-              itemCount: value.getShoeList().length,
+              itemCount: value.getFilteredShoeList().length,
               scrollDirection: Axis.horizontal,
               itemBuilder: (context, index) {
                 // get a shoe
-                Shoe shoe = value.getShoeList()[index];
+                Shoe shoe = value.getFilteredShoeList()[index];
 
                 // return the list of shoes
                 return ShoeTile(

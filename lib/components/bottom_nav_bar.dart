@@ -19,7 +19,7 @@ class BottomNavBar extends StatelessWidget {
       gap: 4,
       tabMargin: EdgeInsetsGeometry.symmetric(vertical: 30),
       padding: EdgeInsetsGeometry.all(15),
-      onTabChange: (value) => onTabChange,
+      onTabChange: onTabChange,
       tabs: [
         GButton(icon: Icons.home, text: 'Shop'),
         GButton(icon: Icons.shopping_bag_rounded, text: 'Cart'),
