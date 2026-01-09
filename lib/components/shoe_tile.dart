@@ -9,7 +9,7 @@ class ShoeTile extends StatelessWidget {
     locale: 'pt_BR',
     symbol: 'R\$',
   );
-  final VoidCallback addToCart;
+  final void Function()? addToCart;
 
   ShoeTile({super.key, required this.shoe, required this.addToCart});
 
@@ -35,21 +35,24 @@ class ShoeTile extends StatelessWidget {
           ),
 
           // description
-          Text(
-            shoe.description,
-            style: TextStyle(color: Colors.grey[600]),
+          Padding(
+            padding: const EdgeInsets.symmetric(horizontal: 25.0),
+            child: Text(
+              shoe.description,
+              style: TextStyle(color: Colors.grey[600]),
+            ),
           ),
 
           // price + details
           Padding(
-            padding: const EdgeInsets.only(left: 25.0),
+            padding: const EdgeInsets.only(left: 20.0),
             child: Row(
               mainAxisAlignment: MainAxisAlignment.spaceBetween,
               crossAxisAlignment: CrossAxisAlignment.start,
               children: [
                 Column(
                   crossAxisAlignment: CrossAxisAlignment.start,
-                  spacing: 5,
+                  spacing: 3,
                   children: [
                     // shoe name
                     Text(
@@ -75,7 +78,7 @@ class ShoeTile extends StatelessWidget {
                   icon: Icon(Icons.add),
                   color: Colors.white,
                   highlightColor: Colors.white,
-                  padding: EdgeInsets.all(18),
+                  padding: EdgeInsets.all(19),
                   constraints: BoxConstraints(),
                   style: ButtonStyle(
                     backgroundColor: WidgetStatePropertyAll(
